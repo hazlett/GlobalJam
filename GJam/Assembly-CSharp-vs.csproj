@@ -46,8 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\RotateSpinner.cs" />
-     <Compile Include="Assets\SineSpinner.cs" />
+     <Compile Include="Assets\Scripts\CompanionManager.cs" />
+     <Compile Include="Assets\Scripts\CompanionServerManager.cs" />
+     <Compile Include="Assets\Scripts\RotateSpinner.cs" />
+     <Compile Include="Assets\Scripts\ServerManager.cs" />
+     <Compile Include="Assets\Scripts\SineSpinner.cs" />
      <Compile Include="Assets\something.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>A:/Unity4/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
