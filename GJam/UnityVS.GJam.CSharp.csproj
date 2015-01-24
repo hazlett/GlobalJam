@@ -51,7 +51,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\RotateSpinner.cs" />
+    <Compile Include="Assets\Scripts\CompanionManager.cs" />
+    <Compile Include="Assets\Scripts\CompanionServerManager.cs" />
     <Compile Include="Assets\Scripts\ServerManager.cs" />
+    <Compile Include="Assets\SineSpinner.cs" />
     <Compile Include="Assets\something.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
