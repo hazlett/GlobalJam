@@ -5,10 +5,19 @@ public class ServerManager : MonoBehaviour {
     public static ServerManager Instance;
     internal string code;
     internal bool confirmed;
+    internal bool codeCreated;
+    internal bool[] playersConfirmed;
+ 
 
+    void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         confirmed = false;
+        codeCreated = false;
+        playersConfirmed = new bool[]{false, false, false, false};
     }
 
     void Update()
@@ -34,7 +43,10 @@ public class ServerManager : MonoBehaviour {
         }
     }
 
-
+    internal void GetCode()
+    {
+        StartCoroutine("SendCode");
+    }
     internal IEnumerator SendCode()
     {
         WWW www = new WWW("http://hazlett206.ddns.net/GlobalJam/SendPlayerCodes.php");
@@ -43,6 +55,8 @@ public class ServerManager : MonoBehaviour {
         {
             Debug.Log(www.text);
             code = www.text;
+            codeCreated = true;
+            StartCoroutine("CheckConfirmations");
         }
         else
         {
@@ -62,10 +76,27 @@ public class ServerManager : MonoBehaviour {
             if (www.text == "1234")
             {
                 Debug.Log("confirmed!");
+                playersConfirmed = new bool[] { true, true, true, true };
                 confirmed = true;
             }
             else
             {
+                if (www.text.Contains("1"))
+                {
+                    playersConfirmed[0] = true;
+                }
+                if (www.text.Contains("2"))
+                {
+                    playersConfirmed[1] = true;
+                }
+                if (www.text.Contains("3"))
+                {
+                    playersConfirmed[2] = true;
+                }
+                if (www.text.Contains("4"))
+                {
+                    playersConfirmed[3] = true;
+                }
                 StartCoroutine("CheckConfirmations");
             }
         }
