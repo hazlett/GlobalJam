@@ -12,6 +12,7 @@ public class ServerManager : MonoBehaviour {
     void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {
@@ -22,30 +23,59 @@ public class ServerManager : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Alpha1))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             StartCoroutine("SendCode");
         }
-        if (Input.GetKeyUp(KeyCode.Alpha2))
+        if (Input.GetKeyUp(KeyCode.A))
         {
             CompanionServerManager.Instance.Auth(code + "1");
             CompanionServerManager.Instance.Auth(code + "2");
             CompanionServerManager.Instance.Auth(code + "3");
             CompanionServerManager.Instance.Auth(code + "4");
         }
-        if (Input.GetKeyUp(KeyCode.Alpha3))
-        {
-            StartCoroutine("CheckConfirmations");
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha5))
+        if (Input.GetKeyUp(KeyCode.C))
         {
             StartCoroutine("ClearSession");
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            StartCoroutine(SendFlip("1"));
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            StartCoroutine(SendFlip("2"));
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            StartCoroutine(SendFlip("3"));
+        }
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            StartCoroutine(SendFlip("4"));
         }
     }
 
     internal void GetCode()
     {
         StartCoroutine("SendCode");
+    }
+    internal IEnumerator SendFlip(string player)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("code", code);
+        form.AddField("player", player);
+        WWW www = new WWW("http://hazlett206.ddns.net/GlobalJam/SendFlip.php", form);
+        yield return www;
+        if (www.error == null)
+        {
+            Debug.Log("sent flip. player: " + player);
+        }
+        else
+        {
+            Debug.Log("send flip error: " + www.error);
+        }
+
     }
     internal IEnumerator SendCode()
     {
