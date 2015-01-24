@@ -7,6 +7,7 @@ public class CompanionServerManager : MonoBehaviour {
     internal string gameCode;
     internal string player;
     internal string instructionsXML;
+    public GameObject SessionScreen, auth, AuthFailed;
 
     void Awake()
     {
@@ -18,8 +19,11 @@ public class CompanionServerManager : MonoBehaviour {
         player = "";
         instructionsXML = "";
     }
+ 
     internal void Auth(string code)
     {
+        auth.SetActive(true);
+        SessionScreen.SetActive(false);
         StartCoroutine(SendAuth(code));
     }
     internal IEnumerator SendAuth(string code)
@@ -28,18 +32,39 @@ public class CompanionServerManager : MonoBehaviour {
         form.AddField("code", code);
         gameCode = code.Remove(code.Length - 1);
         player = code[code.Length - 1].ToString();
-        WWW www = new WWW("http://hazlett206.ddns.net/GlobalJam/SendAuth.php");
+        WWW www = new WWW("http://hazlett206.ddns.net/GlobalJam/SendAuth.php", form);
         yield return www;
         if (www.error == null)
         {
-            instructionsXML = www.text;
+            Debug.Log("send auth: |" + www.text + "|");
+            if (www.text == "-1\n")
+            {
+                Debug.Log("No game exists");
+                FailedAuth();
+            }
+            if (www.text == "-2\n")
+            {
+                Debug.Log("No player remains");
+                FailedAuth();
+            }
+            else
+            {
+                instructionsXML = www.text;
+            }
         }
         else
         {
             Debug.Log("Auth error" + www.error);
-            gameCode = "";
-            player = "";
-            instructionsXML = "";
+            FailedAuth();
         }
+        auth.SetActive(false);
+    }
+    private void FailedAuth()
+    {
+        Debug.Log("Auth failed");
+        AuthFailed.SetActive(true);
+        gameCode = "";
+        player = "";
+        instructionsXML = "";
     }
 }

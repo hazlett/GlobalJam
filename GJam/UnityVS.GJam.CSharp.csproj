@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\RotateSpinner.cs" />
+    <Compile Include="Assets\Scenes\ServerTestControls.cs" />
     <Compile Include="Assets\Scripts\CompanionManager.cs" />
     <Compile Include="Assets\Scripts\CompanionServerManager.cs" />
     <Compile Include="Assets\Scripts\ServerManager.cs" />

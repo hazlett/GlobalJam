@@ -8,5 +8,6 @@ public class CompanionManager : MonoBehaviour {
     public void Auth()
     {
         CompanionServerManager.Instance.Auth(input.text);
+        input.text = "";
     }
 }
